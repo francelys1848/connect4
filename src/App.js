@@ -2,36 +2,37 @@ import "./styles.css";
 import { useState } from "react";
 
 export default function App() {
-  let column = ["red", "yellow", "yellow", "red", "red", "yellow"];
-  console.log(column[0]);
+  let [playerTurn, changePlayerTurn] = useState("red");
+  let [column, changeColumn] = useState([]);
+  function togglePlayerTurn() {
+    if (column.length < 6) {
+      changeColumn([...column, playerTurn]);
+      if (playerTurn === "red") {
+        changePlayerTurn("yellow");
+      } else {
+        changePlayerTurn("red");
+      }
+    }
+  }
   return (
     <div className="App">
-      <h1>Hello My React App!</h1>
-      <h2>Start editing to see some magic happen!</h2>
-
-      <SlotName token={column[5]} />
-      <SlotName token={column[4]} />
-      <SlotName token={column[3]} />
-      <SlotName token={column[2]} />
-      <SlotName token={column[1]} />
-      <SlotName token={column[0]} />
+      <div className="background" onClick={() => togglePlayerTurn()}>
+        <SlotName token={column[5]} />
+        <SlotName token={column[4]} />
+        <SlotName token={column[3]} />
+        <SlotName token={column[2]} />
+        <SlotName token={column[1]} />
+        <SlotName token={column[0]} />
+      </div>
     </div>
   );
 }
-function SlotName(props) {
-  let [playerTurn, changePlayerTurn] = useState("red");
-  function togglePlayerTurn() {
-    if (playerTurn === "red") {
-      changePlayerTurn("yellow");
-    } else {
-      changePlayerTurn("red");
-    }
-  }
 
+function SlotName(props) {
   return (
     <div>
       {/* <div> {playerTurn} </div> */}
-      <div className="background" onClick={() => togglePlayerTurn()}>
+      <div className="background">
         <div className={`${props.token} clear `}></div>
       </div>
     </div>
